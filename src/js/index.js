@@ -15,7 +15,7 @@ const btnLoadMore = document.querySelector('.load-more');
  
 
 //  Плавний скрол
- document.addEventListener('scroll', scroll);
+//  window.addEventListener('scroll', scroll);
  function scroll (){
     const { height: cardHeight } = document
   .querySelector(".gallery")
@@ -62,20 +62,28 @@ function chooseImages (event) {
             'Sorry, there are no images matching your search query. Please try again.'
           )
     }
-
+else {
     Notiflix.Notify.success(`Hooray! We found ${images.totalHits} images.`);
 
     renderCardImage(images);
 
     lightboxImages.refresh();
+}
+  
 
-    btnLoadMore.classList.remove('is-hidden');
+    // btnLoadMore.classList.remove('is-hidden');
+    if (images.totalHits > pageLimit) {
+      btnLoadMore.classList.remove('is-hidden');
+      window.addEventListener('scroll', scroll);
+  };
+  // scroll();
 
 })
 .catch(error => 
-    Notiflix.Notify.failure(
+    {Notiflix.Notify.failure(
         'Oops! Something went wrong! Try reloading the page!'
-      )
+      );
+      form.resert();}
 );
 };
 
@@ -103,23 +111,24 @@ function loadMore (event){
     const number = Number(page*images.hits.length);
     console.log(number);
 
-    if(number > images.totalHits || number === 0){
+    renderCardImage(images);
+    
+    if(number >= images.totalHits || number === 0){
 
          btnLoadMore.classList.add('is-hidden');
          clearGallery();
-         return Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
-
+         window.removeEventListener('scroll', scroll)
+          Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+        
   }
     
     Notiflix.Notify.success(`Hooray! We found ${Number(images.hits.length)} images.`);
 
-    renderCardImage(images);
-
     lightboxImages.refresh();
     
-    btnLoadMore.classList.remove('is-hidden');
+    // btnLoadMore.classList.remove('is-hidden');
 
-   scroll();
+  //  scroll();
 }) 
     
 }
