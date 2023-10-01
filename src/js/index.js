@@ -69,8 +69,6 @@ else {
 
     lightboxImages.refresh();
 }
-  
-
     // btnLoadMore.classList.remove('is-hidden');
     if (images.totalHits > pageLimit) {
       btnLoadMore.classList.remove('is-hidden');
@@ -108,16 +106,18 @@ function loadMore (event){
     .then(images => {
     console.log(images);
 
-    const number = Number(page*images.hits.length);
+    // const number = Number(page*images.hits.length);
+    const number = Math.ceil(images.totalHits / pageLimit);
     console.log(number);
 
     renderCardImage(images);
     
-    if(number >= images.totalHits || number === 0){
+    if( number === page){
 
          btnLoadMore.classList.add('is-hidden');
          clearGallery();
-         window.removeEventListener('scroll', scroll)
+         window.removeEventListener('scroll', scroll);
+         btnLoadMore.removeEventListener('click', loadMore );
           Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
         
   }
