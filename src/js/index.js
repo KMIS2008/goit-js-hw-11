@@ -106,13 +106,13 @@ function loadMore (event){
     .then(images => {
     console.log(images);
 
-    // const number = Number(page*images.hits.length);
-    const number = Math.ceil(images.totalHits / pageLimit);
+    const number = Number(page*images.hits.length);
+    // const number = Math.ceil(images.totalHits / pageLimit);
     console.log(number);
 
     renderCardImage(images);
     
-    if( number === page){
+    if( number === images.totalHits || number === 0){
 
          btnLoadMore.classList.add('is-hidden');
          clearGallery();
