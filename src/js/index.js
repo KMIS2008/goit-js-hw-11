@@ -115,32 +115,36 @@ async function loadMore (event){
     
     // const rrr = await console.log(galleryfetch);
 
-    const number1 = Number(page*galleryfetch.hits.length);
-    const number2 = Math.ceil(galleryfetch.totalHits / pageLimit);
+    // const lastPage1 = Number(page*galleryfetch.hits.length);
+    const lastPage = Math.ceil(galleryfetch.totalHits / pageLimit);
     
-    console.log(`${page} * ${galleryfetch.hits.length} = ${number1}`);
-     console.log(`${galleryfetch.totalHits} / ${pageLimit} = ${number2}`);
-  
-      if(  page === number2 && number1 === galleryfetch.totalHits || number1 === 0){
+    // console.log(`${page} * ${galleryfetch.hits.length} = ${lastPage1}`);
+    //  console.log(`${galleryfetch.totalHits} / ${pageLimit} = ${lastPage}`);
 
-         btnLoadMore.classList.add('is-hidden');
-         clearGallery();
-         btnLoadMore.removeEventListener('click', loadMore );
-         Notiflix.Notify.info("We're sorry, but you've reached the end of search results."); 
-  }
-      if( pageLimit > galleryfetch.hits.length){
+    //  && lastPage1 === galleryfetch.totalHits || lastPage1 === 0
+  
+      if(  page === lastPage){
 
         renderCardImage(galleryfetch);
         lightboxImages.refresh();
-        btnLoadMore.classList.add('is-hidden');
-        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+
+         btnLoadMore.classList.add('is-hidden');
+        
+        //  btnLoadMore.removeEventListener('click', loadMore );
+         Notiflix.Notify.info("We're sorry, but you've reached the end of search results."); 
   }
+  //     if( pageLimit > galleryfetch.hits.length){
+
+  //       renderCardImage(galleryfetch);
+  //       lightboxImages.refresh();
+  //       btnLoadMore.classList.add('is-hidden');
+  //       // Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+  // }
       else{
+
     renderCardImage(galleryfetch);
 
     lightboxImages.refresh();
-
-    Notiflix.Notify.success(`Hooray! We found ${Number(galleryfetch.hits.length)} images.`);
 
     btnLoadMore.classList.remove('is-hidden');
   }
